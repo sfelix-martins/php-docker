@@ -2,9 +2,53 @@
 
 Docker config for PHP application 
 
+## Requirements
+
+- Docker
+- Docker Compose
+
 ## Containers
 
 - PHP 7.4.1
 - MySQL 5.7.22
 - Redis
 - Nginx
+
+## Configuration
+
+Clone repository files in a new folder inside your project:
+
+```shell script
+git clone git@github.com:sfelix-martins/php-docker.git
+```
+
+Copy the content of the folder `src` to your project root folder:
+
+```shell script
+cp -R php-docker/src/* .
+```
+
+Change the services name on `docker-compose.yml` from `phpapp` to your application name.
+
+**WARNING** If you change the service names don't forget change the `fastcgi_pass` with your new service name.
+
+## Usage
+
+Up your application docker environment: 
+
+```shell script
+docker-compose up -d
+```
+
+Your application should be available on `http://localhost:8080`.
+
+Remembering that `.docker/nginx/nginx.conf` contains the web server configs pointing the site to `/var/www/public`.
+
+Feels free to change it according to your application entry point.
+
+## TODO
+
+- Create an installation script. E.g:
+    - What's your project name?:
+        - Replace the project name on services 
+    - Copy docker config files to project root folder

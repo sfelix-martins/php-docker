@@ -8,7 +8,7 @@ WORKDIR /var/www
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-COPY .docker/nginx/nginx.conf /etc/nginx/conf.d/
+COPY .docker /etc/nginx/conf.d/
 
 EXPOSE 80
 ENTRYPOINT ["php-fpm"]
