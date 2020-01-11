@@ -1,0 +1,41 @@
+version: '3'
+services:
+  phpapp:
+    build: .
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - phpapp-mysql
+      - phpapp-redis
+    ports:
+      - "9000"
+
+  phpapp-mysql:
+    image: mysql:5.7.22
+    command: --innodb-use-native-aio=0
+    restart: always
+    ports:
+      - "3306"
+    volumes:
+      - "./.docker/dbdata:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: phpapp
+      MYSQL_ROOT_PASSWORD: root
+
+  phpapp-redis:
+    image: redis:alpine
+    volumes:
+      - ./.docker/redis:/data
+    expose:
+      - 6379
+
+  phpapp-nginx:
+    build: ./.docker/nginx
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www
+      - ./.docker/log/nginx:/var/log/nginx
+    depends_on:
+      - phpapp
